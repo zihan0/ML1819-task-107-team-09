@@ -26,12 +26,10 @@ def Load_dataset(DocPath,lDataPath,mask) :
 
 
 def main():
-
-    DocPath = "/Users/sid/Desktop/gender-classifier-DFE-791531.csv"
-    lDataPath = "/Users/sid/Desktop/labeldata.csv"
-    mask = [0,1,2,3,7] # columns chosen from the ender-classifier-DFE-791531.csv to be represented in labeldata.csv
+    DocPath = "Dataset/gender-classifier-DFE-791531.csv"
+    lDataPath = "Dataset/labeldata.csv"
+    mask = [0,1,2,4,5,7,8,10] # columns chosen from the ender-classifier-DFE-791531.csv to be represented in labeldata.csv
     Load_dataset(DocPath,lDataPath,mask)
-
 if __name__== "__main__":
   main()
 
