@@ -101,7 +101,10 @@ def plotData(dataset):
     ax.scatter(x1, x2, c='blue', marker='o', label='Male')
     ax.scatter(y1, y2, c='pink', marker='x', label='Female')
 
-    fig.savefig("graph1.png")
+    ax.set_xlabel('Favorites')
+    ax.set_ylabel('Tweets')
+
+    fig.savefig("graph1.png", bbox_inches="tight")
     print("plotData complete")
 
 
