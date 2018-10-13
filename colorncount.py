@@ -7,12 +7,21 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 
 def colortoflag(X):
-    flag = X[i][0]
-    for i in range(len(X)):
-
-        X[i][0] = 100*i
+    flag = 100
+    color = X[:,0]
+    uniqcolor = np.unique(color, return_inverse=True) #376 unique color
+    print(len(uniqcolor[0]))
+    for i in range (len(color)):
         for j in range (len(X)):
-            if (X[j][0] == flag) : X[j][0]=X[i][0]
+            if (np.equal(X[j][0],color[i])): X[j][0] = flag
+
+            #X = np.delete(X, (tmp[j]),axis = 1)
+        flag = flag * 4
+    print(X)
+    return X
+
+
+
 
 
 def plotData(X,Y):
@@ -48,10 +57,12 @@ if __name__ == '__main__':
         for row in reader:  # read a row as {column1: value1, column2: value2,...}
             for (k, v) in row.items():  # go over each column name and value
                 columns[k].append(v)
-    X = [columns['color'], columns['count']]
-    Y = [columns['gender']]
+    X = [columns['color'], columns['count'],columns['gender']]
     X = np.asarray(X).T  # change list to array X.shape=(12894, 2)
-    Y = np.asarray(Y).T  # Y.shape=(12894, 1)
+    X = colortoflag(X)
+    print(X)
+    Y = X[:,2]
+    print(Y)
     plotData(X,Y)
 
 
