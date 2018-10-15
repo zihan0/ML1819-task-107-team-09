@@ -35,13 +35,29 @@ def plotData(X,Y):
     print(len(males))
     print(len(females))
     fig, ax = plt.subplots()
-    males = np.asarray(males)
-    females = np.asarray(females)
-    ax.scatter(males.T[0], males.T[1], c='blue', marker='o', label='Male')
-    ax.scatter(females.T[0], females.T[1], c='pink', marker='x', label='Female')
+
+    males.pop(0)
+    females.pop(0)
+
+    x1 = []
+    x2 = []
+    
+    for male in males:
+        x1.append(male[0])
+        x2.append(int(male[1]))
+
+    y1 = []
+    y2 = []
+
+    for female in females:
+        y1.append(female[0])
+        y2.append(int(female[1]))
+
+    ax.scatter(x1, x2, c='blue', marker='o', label='Male')
+    ax.scatter(y1, y2, c='pink', marker='x', label='Female')
     ax.set_xlabel('color')
     ax.set_ylabel('count')
-    fig.savefig("graph1.png", bbox_inches="tight")
+    fig.savefig("graph2.png", bbox_inches="tight")
     print("plotData complete")
 
 
@@ -56,7 +72,7 @@ if __name__ == '__main__':
                 columns[k].append(v)
     X = [columns['color'], columns['count'],columns['gender']]
     X = np.asarray(X).T  # change list to array X.shape=(12894, 2)
-    X = colortoflag(X)
+    #X = colortoflag(X)
     #print(X)
     Y = X[:,2]
     #print(Y)
