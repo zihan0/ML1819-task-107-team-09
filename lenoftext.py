@@ -12,11 +12,11 @@ def plotData(X,Y):
 
     print('Plotting graphs')
     i = 0
-    for i in range (len(Y)):
+    for i in range(len(Y)):
         if Y[i] == 'male':
-            males.append([X[i][0], X[i][1]])
+            males.append([len(X[i][1]), len(X[i][2])])
         elif Y[i] == 'female':
-            females.append([X[i][0], X[i][1]])
+            females.append([len(X[i][1]), len(X[i][2])])
     print(females)
     fig, ax = plt.subplots()
 
@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     X =[[]]
     with open('description-text.csv',encoding='Latin-1') as f:
-        reader = csv.reader(f, delimiter=',', quotechar='|')  # read rows into a dictionary format
+        reader = csv.reader(f, delimiter=',', quotechar=' ')  # read rows into a dictionary format
         for row in reader:
             if first_line:
                 first_line = False
