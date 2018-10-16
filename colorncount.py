@@ -6,6 +6,20 @@ from sklearn import datasets, linear_model
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 
+def colortoflag(X):
+    flag = 100
+    color = X[:,0]
+    uniqcolor = np.unique(color, return_inverse=True) #376 unique color
+    #print(len(uniqcolor[0]))
+    for i in range (len(color)):
+        temp = np.where(X == color[i])
+        #print (temp)
+        for j in range (len(temp[0])):
+            X[temp[0][j]] = flag
+            #X = np.delete(X, (tmp[j]),axis = 1)
+        flag = flag * 2
+    print(X)
+    return X
 
 def plotData(X,Y):
     males = [[]]
@@ -27,7 +41,7 @@ def plotData(X,Y):
 
     x1 = []
     x2 = []
-
+    
     for male in males:
         x1.append(male[0])
         x2.append(int(male[1]))
@@ -58,6 +72,7 @@ if __name__ == '__main__':
                 columns[k].append(v)
     X = [columns['color'], columns['count'],columns['gender']]
     X = np.asarray(X).T  # change list to array X.shape=(12894, 2)
+    #X = colortoflag(X)
     #print(X)
     Y = X[:,2]
     #print(Y)
