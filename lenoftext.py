@@ -47,69 +47,50 @@ def loadDataset(dataset, path):
     return dataset;
 
 
-def plotData(dataset):
+def plotData(X,Y):
     males = [[]]
     females = [[]]
+
     print('Plotting graphs')
-    max1 = int(dataset[0][1])
-    min1 = int(dataset[0][1])
-    max2 = int(dataset[0][2])
-    min2 = int(dataset[0][2])
-
-    for data in dataset:
-        try:
-            if data[0] == 'male':
-                males.append([data[1], data[2]])
-            elif data[0] == 'female':
-                females.append([data[1], data[2]])
-
-            if int(data[1]) > max1:
-                max1 = int(data[1])
-            if int(data[1]) < min1:
-                min1 = int(data[1])
-
-            if int(data[2]) > max2:
-                max2 = int(data[2])
-            if int(data[2]) < min2:
-                min2 = int(data[2])
-
-        except:
-            # do nothing
-            pass
-
-    for data in dataset:
-        data[1] = (int(data[1]) - min1) / (max1 - min1)
-        data[2] = (int(data[2]) - min2) / (max2 - min2)
+    i = 0
+    for i in range (len(Y)):
+        if Y[i] == 'male':
+            males.append([X[i][0], X[i][1]])
+        elif Y[i] == 'female':
+            females.append([X[i][0], X[i][1]])
+    print(len(males))
+    print(len(females))
+    fig, ax = plt.subplots()
 
     males.pop(0)
     females.pop(0)
 
-    fig, ax = plt.subplots()
-
     x1 = []
     x2 = []
-    for x in males:
-        x1.append(int(x[0]))
-        x2.append(int(x[1]))
+
+    for male in males:
+        x1.append(male[0])
+        x2.append(int(male[1]))
 
     y1 = []
     y2 = []
-    for y in females:
-        y1.append(int(y[0]))
-        y2.append(int(y[1]))
+
+    for female in females:
+        y1.append(female[0])
+        y2.append(int(female[1]))
 
     ax.scatter(x1, x2, c='blue', marker='o', label='Male')
     ax.scatter(y1, y2, c='pink', marker='x', label='Female')
-
-    ax.set_xlabel('Favorites')
-    ax.set_ylabel('Tweets')
-
-    fig.savefig("graph1.png", bbox_inches="tight")
+    ax.set_xlabel('descriptionlength')
+    ax.set_ylabel('tweetlength')
+    fig.savefig("graph3.png", bbox_inches="tight")
     print("plotData complete")
 
 
+
+
 docPath = "Dataset/gender-classifier-DFE-791531.csv"
-lDataPath = "Dataset/labeldatatext.csv"
+lDataPath = "Dateset/labeldatatext.csv"
 mask = [1,3,8] # columns chosen from the ender-classifier-DFE-791531.csv to be represented in labeldata.csv
 parseDataset(docPath,lDataPath,mask)
 
