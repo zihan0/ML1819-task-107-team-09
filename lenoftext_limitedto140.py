@@ -44,7 +44,7 @@ def plotData(X,Y):
     ax.scatter(y1, y2, c='pink', marker='o', label='Female', s = 2)
     ax.set_xlabel('DescriptionLength')
     ax.set_ylabel('TweetLength')
-    fig.savefig("graph4.png", bbox_inches="tight", dpi = 500)
+    fig.savefig("DescriptionLength_TweetLength.png", bbox_inches="tight", dpi = 500)
 
     print("plotData complete")
 
@@ -67,7 +67,6 @@ if __name__ == '__main__':
         X.pop(0)
 
     X = np.array(X)
-    #print(X)
     Y = []
     input = [[]]
     for row in X:
