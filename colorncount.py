@@ -21,6 +21,17 @@ def colortoflag(X):
     print(X)
     return X
 
+def hex2rgb(value):
+    """Return (red, green, blue) for the color given as #rrggbb."""
+    try:
+        value = value.lstrip('#')
+        lv = len(value)
+        tup = tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+        return tup[2]
+    except:
+        return 0
+
+
 def plotData(X,Y):
     males = [[]]
     females = [[]]
@@ -29,9 +40,9 @@ def plotData(X,Y):
     i = 0
     for i in range (len(Y)):
         if Y[i] == 'male':
-            males.append([X[i][0], X[i][1]])
+            males.append([int(X[i][0]), int(X[i][1])])
         elif Y[i] == 'female':
-            females.append([X[i][0], X[i][1]])
+            females.append([int(X[i][0]), int(X[i][1])])
     print(len(males))
     print(len(females))
     fig, ax = plt.subplots()
@@ -53,11 +64,11 @@ def plotData(X,Y):
         y1.append(female[0])
         y2.append(int(female[1]))
 
-    ax.scatter(x1, x2, c='blue', marker='o', label='Male')
-    ax.scatter(y1, y2, c='pink', marker='x', label='Female')
+    ax.scatter(x1, x2, c='blue', marker='o', label='Male', s=2)
+    ax.scatter(y1, y2, c='pink', marker='o', label='Female', s=2)
     ax.set_xlabel('color')
     ax.set_ylabel('count')
-    fig.savefig("graph2.png", bbox_inches="tight")
+    fig.savefig("graph2.png", bbox_inches="tight", dpi=500)
     print("plotData complete")
 
 
@@ -70,10 +81,13 @@ if __name__ == '__main__':
         for row in reader:  # read a row as {column1: value1, column2: value2,...}
             for (k, v) in row.items():  # go over each column name and value
                 columns[k].append(v)
-    X = [columns['color'], columns['count'],columns['gender']]
+    X = [columns['color'], columns['link_color'], columns['gender']]
     X = np.asarray(X).T  # change list to array X.shape=(12894, 2)
-    #X = colortoflag(X)
-    #print(X)
+
+    for i in range(0, len(X)):
+        X[i,0] = int(hex2rgb(X[i,0]))
+        X[i,1] = int(hex2rgb(X[i,1]))
+
     Y = X[:,2]
     #print(Y)
     plotData(X,Y)
