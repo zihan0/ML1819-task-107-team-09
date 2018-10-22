@@ -13,11 +13,14 @@ def plotData(X,Y):
     print('Plotting graphs')
     i = 0
     for i in range(len(Y)):
-        if Y[i] == 'male':
-            males.append([(X[i][1]), (X[i][2])])
-        elif Y[i] == 'female':
-            females.append([(X[i][1]), (X[i][2])])
-    #print(females)
+        if (i%3 == 0):
+            if Y[i] == 'male':
+                if (len(X[i][2]) < 140):
+                    males.append([len(X[i][1]), len(X[i][2])])
+            elif Y[i] == 'female':
+                if (len(X[i][2]) < 140):
+                    females.append([len(X[i][1]), len(X[i][2])])
+
     fig, ax = plt.subplots()
 
     males.pop(0)
@@ -37,13 +40,13 @@ def plotData(X,Y):
         y1.append(female[0])
         y2.append((female[1]))
 
-    ax.scatter(x1, x2, c='blue', marker='o', label='Male')
-    ax.scatter(y1, y2, c='pink', marker='x', label='Female')
-    ax.set_xlabel('descriptionlength')
-    ax.set_ylabel('tweetlength')
-    fig.savefig("graph3.png", bbox_inches="tight")
-    print("plotData complete")
+    ax.scatter(x1, x2, c='blue', marker='o', label='Male', s = 2)
+    ax.scatter(y1, y2, c='pink', marker='o', label='Female', s = 2)
+    ax.set_xlabel('DescriptionLength')
+    ax.set_ylabel('TweetLength')
+    fig.savefig("DescriptionLength_TweetLength.png", bbox_inches="tight", dpi = 500)
 
+    print("plotData complete")
 
 
 
@@ -64,14 +67,13 @@ if __name__ == '__main__':
         X.pop(0)
 
     X = np.array(X)
-    print(X)
     Y = []
     input = [[]]
     for row in X:
         Y.append(row[0])
-        input.append([(row[1]).count("#"),len(row[2])])
-
-    print(input)
+        input.append((row[1]))
+    print(Y)
+    print(len(input))
     plotData(X,Y)
 
 
