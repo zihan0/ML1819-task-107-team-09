@@ -66,8 +66,8 @@ def plotData(X,Y):
 
     ax.scatter(x1, x2, c='blue', marker='o', label='Male', s=2)
     ax.scatter(y1, y2, c='pink', marker='o', label='Female', s=2)
-    ax.set_xlabel('color')
-    ax.set_ylabel('count')
+    ax.set_xlabel('background colour')
+    ax.set_ylabel('link colour')
     fig.savefig("graph2.png", bbox_inches="tight", dpi=500)
     print("plotData complete")
 
@@ -84,9 +84,9 @@ if __name__ == '__main__':
     X = [columns['color'], columns['link_color'], columns['gender']]
     X = np.asarray(X).T  # change list to array X.shape=(12894, 2)
 
-    for i in range(0, len(X)):
-        X[i,0] = int(hex2rgb(X[i,0]))
-        X[i,1] = int(hex2rgb(X[i,1]))
+    for x in X:
+        x[0] = int(hex2rgb(x[0]))
+        x[1] = int(hex2rgb(x[1]))
 
     Y = X[:,2]
     #print(Y)
