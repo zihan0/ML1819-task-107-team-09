@@ -14,9 +14,11 @@ def plotData(X,Y):
     i = 0
     for i in range(len(Y)):
         if Y[i] == 'male':
-            males.append([len(X[i][1]), len(X[i][2])])
+            if (len(X[i][2]) < 140):
+                males.append([len(X[i][1]), len(X[i][2])])
         elif Y[i] == 'female':
-            females.append([len(X[i][1]), len(X[i][2])])
+            if (len(X[i][2]) < 140):
+                females.append([len(X[i][1]), len(X[i][2])])
     print(females)
     fig, ax = plt.subplots()
 
@@ -69,7 +71,7 @@ if __name__ == '__main__':
     input = [[]]
     for row in X:
         Y.append(row[0])
-        input.append(len(row[1]))
+        input.append((row[1]))
     print(Y)
     print(len(input))
     plotData(X,Y)
