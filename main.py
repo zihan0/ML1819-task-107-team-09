@@ -98,13 +98,13 @@ def plotData(dataset):
         y1.append(int(y[0]))
         y2.append(int(y[1]))
 
-    ax.scatter(x1, x2, c='blue', marker='o', label='Male')
-    ax.scatter(y1, y2, c='pink', marker='x', label='Female')
+    ax.scatter(x1, x2, c='blue', marker='o', label='Male', s=2)
+    ax.scatter(y1, y2, c='pink', marker='o', label='Female', s=2)
 
     ax.set_xlabel('Favorites')
     ax.set_ylabel('Tweets')
 
-    fig.savefig("graph1.png", bbox_inches="tight")
+    fig.savefig("graph1.png", bbox_inches="tight", dpi=500)
     print("plotData complete")
 
 
