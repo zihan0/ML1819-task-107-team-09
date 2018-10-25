@@ -44,8 +44,8 @@ def plotData(X,Y):
     ax.scatter(y1, y2, c='pink', marker='o', label='Female', s = 2)
     ax.set_xlabel('DescriptionLength')
     ax.set_ylabel('TweetLength')
+    ax.legend(bbox_to_anchor=(1, 1))
     fig.savefig("DescriptionLength_TweetLength.png", bbox_inches="tight", dpi = 500)
-
     print("plotData complete")
 
 

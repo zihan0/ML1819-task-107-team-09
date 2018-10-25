@@ -2,6 +2,8 @@ import nltk
 from nltk.corpus import stopwords
 import random
 from nltk.classify.scikitlearn import SklearnClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.utils import shuffle
 import string
 import pandas as pd
@@ -15,7 +17,7 @@ def find_features(top_1000_words, text):
         feature[word] = word in text.lower()
     return feature
 
-df = pd.read_csv('Dataset/original.csv', encoding='latin1')
+df = pd.read_csv('Dataset/gender-classifier-DFE-791531.csv', encoding='latin1')
 df = shuffle(shuffle(shuffle(df)))
 
 all_descriptions = df['description']
@@ -60,7 +62,7 @@ for tweet in all_tweets:
 
 bag_of_words = nltk.FreqDist(bag_of_words)
 top_1000_words = []
-for word in bag_of_words.most_common(5000):
+for word in bag_of_words.most_common(10):
     top_1000_words.append(word[0])
 
 top_1000_words
@@ -77,3 +79,16 @@ LogisticRegression_classifier = SklearnClassifier(LogisticRegression())
 LogisticRegression_classifier.train(training_set)
 accuracy = nltk.classify.accuracy(LogisticRegression_classifier, testing_set) * 100
 print("Logistic Regression classifier accuracy =", accuracy)
+
+# creating a naive bayes classifier
+NB_classifier = nltk.NaiveBayesClassifier.train(training_set)
+accuracy = nltk.classify.accuracy(NB_classifier, testing_set) * 100
+print("Naive Bayes Classifier accuracy =", accuracy)
+NB_classifier.show_most_informative_features(20)
+
+
+# creating a multinomial naive bayes classifier
+MNB_classifier = SklearnClassifier(MultinomialNB())
+MNB_classifier.train(training_set)
+accuracy = nltk.classify.accuracy(MNB_classifier, testing_set) * 100
+print("Multinomial Naive Bayes Classifier accuracy =", accuracy)
