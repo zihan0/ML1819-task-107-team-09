@@ -68,6 +68,7 @@ def plotData(X,Y):
     ax.scatter(y1, y2, c='pink', marker='o', label='Female', s=2)
     ax.set_xlabel('background colour')
     ax.set_ylabel('link colour')
+    ax.legend()
     fig.savefig("graph2.png", bbox_inches="tight", dpi=500)
     print("plotData complete")
 
