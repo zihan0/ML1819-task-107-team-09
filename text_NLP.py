@@ -62,7 +62,7 @@ for tweet in all_tweets:
 
 bag_of_words = nltk.FreqDist(bag_of_words)
 top_1000_words = []
-for word in bag_of_words.most_common(10):
+for word in bag_of_words.most_common(20):
     top_1000_words.append(word[0])
 
 top_1000_words
