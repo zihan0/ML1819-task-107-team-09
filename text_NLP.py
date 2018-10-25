@@ -2,8 +2,6 @@ import nltk
 from nltk.corpus import stopwords
 import random
 from nltk.classify.scikitlearn import SklearnClassifier
-from sklearn.naive_bayes import MultinomialNB, BernoulliNB
-from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.utils import shuffle
 import string
 import pandas as pd
@@ -62,7 +60,7 @@ for tweet in all_tweets:
 
 bag_of_words = nltk.FreqDist(bag_of_words)
 top_1000_words = []
-for word in bag_of_words.most_common(2000):
+for word in bag_of_words.most_common(5000):
     top_1000_words.append(word[0])
 
 top_1000_words
