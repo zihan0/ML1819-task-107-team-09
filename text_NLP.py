@@ -77,18 +77,24 @@ print("Length of testing set", len(testing_set))
 
 LogisticRegression_classifier = SklearnClassifier(LogisticRegression())
 LogisticRegression_classifier.train(training_set)
+accuracy = nltk.classify.accuracy(LogisticRegression_classifier, training_set) * 100
+print("Logistic Regression classifier Training Accuracy =", accuracy)
 accuracy = nltk.classify.accuracy(LogisticRegression_classifier, testing_set) * 100
-print("Logistic Regression classifier accuracy =", accuracy)
+print("Logistic Regression classifier Test Accuracy =", accuracy)
 
 # creating a naive bayes classifier
 NB_classifier = nltk.NaiveBayesClassifier.train(training_set)
+accuracy = nltk.classify.accuracy(NB_classifier, training_set) * 100
+print("Naive Bayes Classifier Training Accuracy =", accuracy)
 accuracy = nltk.classify.accuracy(NB_classifier, testing_set) * 100
-print("Naive Bayes Classifier accuracy =", accuracy)
+print("Naive Bayes Classifier Test Accuracy =", accuracy)
 NB_classifier.show_most_informative_features(20)
 
 
 # creating a multinomial naive bayes classifier
 MNB_classifier = SklearnClassifier(MultinomialNB())
 MNB_classifier.train(training_set)
+accuracy = nltk.classify.accuracy(MNB_classifier, training_set) * 100
+print("Multinomial Naive Bayes Classifier Training Accuracy =", accuracy)
 accuracy = nltk.classify.accuracy(MNB_classifier, testing_set) * 100
-print("Multinomial Naive Bayes Classifier accuracy =", accuracy)
+print("Multinomial Naive Bayes Classifier Test Accuracy =", accuracy)
