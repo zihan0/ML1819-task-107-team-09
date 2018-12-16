@@ -110,9 +110,28 @@ def main() :
     uniquewords_male = list(set(bag_of_words_male).difference(set(bag_of_words_female)))
     uniquewords_female = list(set(bag_of_words_female).difference(set(bag_of_words_male)))
 
+    bag_of_words = nltk.FreqDist(common_words)
+    top_words = []
+    for word in bag_of_words.most_common(100):
+        top_words.append(word[0])
+    print("Number of common words", top_words)
+
+    bag_of_words = nltk.FreqDist(uniquewords_male)
+    top_words = []
+    for word in bag_of_words.most_common(100):
+        top_words.append(word[0])
+    print("Number of common words", top_words)
+
+    bag_of_words = nltk.FreqDist(uniquewords_female)
+    top_words = []
+    for word in bag_of_words.most_common(100):
+        top_words.append(word[0])
+    print("Number of common words", top_words)
+
     print("Number of common words", len(common_words))
     print("Number of unique words", len(uniquewords_male))
     print("Number of unique words", len(uniquewords_female))
+
 
     c=0
     for word in common_words :
@@ -120,7 +139,7 @@ def main() :
         if r > 1:
             common_words_ratio.append(r)
         else :
-            common_words_ratio.append(1/r)
+            common_words_ratio.append(-1/r)
         c += 1
 
     print("Maximum ratio",max(common_words_ratio))
