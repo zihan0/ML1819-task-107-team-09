@@ -7,7 +7,6 @@ from sklearn.linear_model import LogisticRegression,SGDClassifier
 from sklearn.utils import shuffle
 import string
 import pandas as pd
-import ssl
 
 def find_features(top_words, text):
     feature = {}
@@ -93,36 +92,142 @@ def main() :
 
     # creating the feature set, training set and the testing set
     feature_set = [(find_features(top_words, text), gender) for (text, gender) in description_tweet_gender]
-    training_set = feature_set[:int(len(feature_set) * 4 / 5)]
-    testing_set = feature_set[int(len(feature_set) * 4 / 5):]
 
-    print("Length of feature set", len(feature_set))
-    print("Length of training set", len(training_set))
-    print("Length of testing set", len(testing_set))
+    logistic = []
+    naive = []
+    multinomial = []
+
+    for i in range(10):
+        temp = predict(feature_set)
+        logistic.append(temp[0])
+        naive.append(temp[1])
+        multinomial.append(temp[2])
+
+    print("\nFinal logistic: ", logistic)
+    print("\nFinal bayes: ", naive)
+    print("\nFinal multinomial: ", multinomial)
+
+def predict(feature_set):
+    # 75/25
+    frac = 0.25
+    inds = set(random.sample(list(range(len(feature_set))), int(frac * len(feature_set))))
+
+    training_set1 = [n for i,n in enumerate(feature_set) if i not in inds]
+    testing_set1 = [n for i,n in enumerate(feature_set) if i in inds]
+
+    # 80/20
+    frac = 0.20
+    inds = set(random.sample(list(range(len(feature_set))), int(frac * len(feature_set))))
+    training_set2 = [n for i,n in enumerate(feature_set) if i not in inds]
+    testing_set2 = [n for i,n in enumerate(feature_set) if i in inds]
+
+    # 70/30
+    frac = 0.30
+    inds = set(random.sample(list(range(len(feature_set))), int(frac * len(feature_set))))
+    training_set3 = [n for i,n in enumerate(feature_set) if i not in inds]
+    testing_set3 = [n for i,n in enumerate(feature_set) if i in inds]
+
+    logistic_regression = []
+    naive_regression = []
+    multinomial_regression = []
 
     LogisticRegression_classifier = SklearnClassifier(LogisticRegression())
-    LogisticRegression_classifier.train(training_set)
-    accuracy = nltk.classify.accuracy(LogisticRegression_classifier, training_set) * 100
-    print("Logistic Regression classifier Training Accuracy =", accuracy)
-    accuracy = nltk.classify.accuracy(LogisticRegression_classifier, testing_set) * 100
-    print("Logistic Regression classifier Test Accuracy =", accuracy)
+
+    LogisticRegression_classifier.train(training_set1)
+    accuracy = nltk.classify.accuracy(LogisticRegression_classifier, training_set1) * 100
+    logistic_regression.append(accuracy)
+    print("Logistic Regression classifier Training Accuracy1 =", accuracy)
+
+    accuracy = nltk.classify.accuracy(LogisticRegression_classifier, testing_set1) * 100
+    logistic_regression.append(accuracy)
+    print("Logistic Regression classifier Test Accuracy1 =", accuracy)
+    LogisticRegression_classifier.train(training_set2)
+
+    accuracy = nltk.classify.accuracy(LogisticRegression_classifier, training_set2) * 100
+    logistic_regression.append(accuracy)
+    print("Logistic Regression classifier Training Accuracy2 =", accuracy)
+    accuracy = nltk.classify.accuracy(LogisticRegression_classifier, testing_set2) * 100
+    logistic_regression.append(accuracy)
+    print("Logistic Regression classifier Test Accuracy2 =", accuracy)
+
+    LogisticRegression_classifier.train(training_set3)
+    accuracy = nltk.classify.accuracy(LogisticRegression_classifier, training_set3) * 100
+    logistic_regression.append(accuracy)
+    print("Logistic Regression classifier Training Accuracy3 =", accuracy)
+    accuracy = nltk.classify.accuracy(LogisticRegression_classifier, testing_set3) * 100
+    logistic_regression.append(accuracy)
+    print("Logistic Regression classifier Test Accuracy3 =", accuracy)
 
     # creating a naive bayes classifier
-    NB_classifier = nltk.NaiveBayesClassifier.train(training_set)
-    accuracy = nltk.classify.accuracy(NB_classifier, training_set) * 100
-    print("Naive Bayes Classifier Training Accuracy =", accuracy)
-    accuracy = nltk.classify.accuracy(NB_classifier, testing_set) * 100
-    print("Naive Bayes Classifier Test Accuracy =", accuracy)
-    NB_classifier.show_most_informative_features(20)
+    NB_classifier = nltk.NaiveBayesClassifier.train(training_set1)
+    accuracy = nltk.classify.accuracy(NB_classifier, training_set1) * 100
+    naive_regression.append(accuracy)
+    print("Naive Bayes Classifier Training Accuracy1 =", accuracy)
+    accuracy = nltk.classify.accuracy(NB_classifier, testing_set1) * 100
+    naive_regression.append(accuracy)
+    print("Naive Bayes Classifier Test Accuracy1 =", accuracy)
+
+    NB_classifier = nltk.NaiveBayesClassifier.train(training_set2)
+    accuracy = nltk.classify.accuracy(NB_classifier, training_set2) * 100
+    naive_regression.append(accuracy)
+    print("Naive Bayes Classifier Training Accuracy2 =", accuracy)
+    accuracy = nltk.classify.accuracy(NB_classifier, testing_set2) * 100
+    naive_regression.append(accuracy)
+    print("Naive Bayes Classifier Test Accuracy2 =", accuracy)
+
+    NB_classifier = nltk.NaiveBayesClassifier.train(training_set3)
+    accuracy = nltk.classify.accuracy(NB_classifier, training_set3) * 100
+    naive_regression.append(accuracy)
+    print("Naive Bayes Classifier Training Accuracy3 =", accuracy)
+    accuracy = nltk.classify.accuracy(NB_classifier, testing_set3) * 100
+    naive_regression.append(accuracy)
+    print("Naive Bayes Classifier Test Accuracy3 =", accuracy)
+    # NB_classifier.show_most_informative_features(20)
 
 
     # creating a multinomial naive bayes classifier
     MNB_classifier = SklearnClassifier(MultinomialNB())
-    MNB_classifier.train(training_set)
-    accuracy = nltk.classify.accuracy(MNB_classifier, training_set) * 100
+    MNB_classifier.train(training_set1)
+    accuracy = nltk.classify.accuracy(MNB_classifier, training_set1) * 100
+    multinomial_regression.append(accuracy)
     print("Multinomial Naive Bayes Classifier Training Accuracy =", accuracy)
-    accuracy = nltk.classify.accuracy(MNB_classifier, testing_set) * 100
+    accuracy = nltk.classify.accuracy(MNB_classifier, testing_set1) * 100
+    multinomial_regression.append(accuracy)
     print("Multinomial Naive Bayes Classifier Test Accuracy =", accuracy)
 
+    MNB_classifier = SklearnClassifier(MultinomialNB())
+    MNB_classifier.train(training_set2)
+    accuracy = nltk.classify.accuracy(MNB_classifier, training_set2) * 100
+    multinomial_regression.append(accuracy)
+    print("Multinomial Naive Bayes Classifier Training Accuracy2 =", accuracy)
+    accuracy = nltk.classify.accuracy(MNB_classifier, testing_set2) * 100
+    multinomial_regression.append(accuracy)
+    print("Multinomial Naive Bayes Classifier Test Accuracy2 =", accuracy)
+
+
+    MNB_classifier = SklearnClassifier(MultinomialNB())
+    MNB_classifier.train(training_set3)
+    accuracy = nltk.classify.accuracy(MNB_classifier, training_set3) * 100
+    multinomial_regression.append(accuracy)
+    print("Multinomial Naive Bayes Classifier Training Accuracy3 =", accuracy)
+    accuracy = nltk.classify.accuracy(MNB_classifier, testing_set3) * 100
+    multinomial_regression.append(accuracy)
+    print("Multinomial Naive Bayes Classifier Test Accuracy3 =", accuracy)
+
+    combined = []
+    combined.append(logistic_regression)
+    combined.append(naive_regression)
+    combined.append(multinomial_regression)
+
+    return combined
+
+
+
+
 if __name__== "__main__":
+  import time
+  st = time.time()
+  print("Starting\n")
   main()
+
+  print("----%.2f----" % (time.time() - st))
